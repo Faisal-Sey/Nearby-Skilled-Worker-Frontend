@@ -1,0 +1,13 @@
+.toastBanner {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.toastContainer {
+  border: 1px solid #FFA500;
+  border-radius: 10px;
+  display: flex; 
+  align-items: center;
+  padding: 20px;
+}

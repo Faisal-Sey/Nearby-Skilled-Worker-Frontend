@@ -1,0 +1,19 @@
+.navbar {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.navLink {
+  margin-right: 10px;
+}
+
+@keyframes dropAnimation {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
