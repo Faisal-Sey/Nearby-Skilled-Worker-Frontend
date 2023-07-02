@@ -1,10 +1,15 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import type { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { initialState, setUserData } from "@/redux/slices/userSlice";
 import Navbar from "@/components/navbar";
 import styles from "./style.module.scss";
-import { useEffect } from "react";
+import CategoryCard from "./components/categoryCard/categoryCard";
+import GigCard from "./components/gigCard";
+import ReviewCard from "./components/reviewCard";
+import Footer from "@/components/footer";
+// import 
 
 export default function Home() {
   // Retrieve user from redux store
@@ -20,6 +25,21 @@ export default function Home() {
     dispatch(setUserData(initialState));
     router.push("/");
   };
+
+  const categories = [
+    { id: "carpentry", title: "Carpentry", gigs: 18 },
+    { id: "electrician", title: "Electrician", gigs: 16 },
+    { id: "mason-works", title: "Mason works", gigs: 10 },
+    { id: "teaching", title: "Teaching", gigs: 9 },
+    { id: "plumbing", title: "Plumbing", gigs: 2 },
+    { id: "welding", title: "Welding", gigs: 1 },
+  ];
+
+  const gigs = [
+    { id: "carpentry", title: "Carpentry", gigs: 18 },
+    { id: "electrician", title: "Electrician", gigs: 16 },
+    { id: "mason-works", title: "Mason works", gigs: 10 },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,11 +70,13 @@ export default function Home() {
         <h1 className="font-bold text-[50px] text-center">
           Get a gig near you with ease.
         </h1>
-        <p className="mt-8">
-          Find local gigs matching your skills and interests. Showcase talents,
-          grow your career. No long commutes - explore gigs nearby. Connect with
-          employers or clients, unlock new possibilities, all while staying
-          close to home. Embrace convenience today!
+        <p className="mt-8 flex justify-center">
+          <span className="w-[50%] text-center">
+            Find local gigs matching your skills and interests. Showcase
+            talents, grow your career. No long commutes - explore gigs nearby.
+            Connect with employers or clients, unlock new possibilities, all
+            while staying close to home. Embrace convenience today!
+          </span>
         </p>
         <div className="flex justify-center mt-8">
           <div className={styles.jobSearchInputWrapper}>
@@ -62,7 +84,7 @@ export default function Home() {
               type="text"
               title="Job Title"
               placeholder="Job Title"
-              className="border mr-3"
+              className="border mr-3 p-3 rounded-md"
             />
             <select title="Pick Location" className="mr-3">
               <option>Location</option>
@@ -71,18 +93,48 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="bg-white m-0 p-0 flex flex-col items-center justify-center h-[100vh]">
-        <h3 className="font-bold">Welcome to Gigs Platform {user?.name}!</h3>
-        <div className="flex flex-row mt-3">
-          <button
-            type="button"
-            onClick={logout}
-            className="p-1 text-[#fff] bg-blue-600"
-          >
-            Logout
-          </button>
+      <div className={styles.topCategories}>
+        <h1 className="font-bold uppercase text-[20px]">Top Categories</h1>
+        <p>Find gigs across different categories.</p>
+        <div className="category-cards mt-8 flex flex-wrap">
+          {categories.map((elt) => (
+            <CategoryCard key={elt.id} title={elt.title} gigs={elt.gigs} />
+          ))}
+          <CategoryCard
+            title="18+"
+            subtitle={
+              <button type="button" className="border rounded-sm text-[#000] p-2">
+                See More
+              </button>
+            }
+          />
         </div>
       </div>
+      <div className={styles.recentGigs}>
+        <h1 className="font-bold uppercase text-[20px]">Recent Gigs</h1>
+        <div className="flex flex-wrap items-center justify-between">
+          <p className="mb-3">5 gigs posted recently</p>      
+          <div className={styles.filterButtons}>
+            <button type="button">Marketing</button>
+            <button type="button">Carpentry</button>
+            <button type="button">Mason Works</button>
+            <button type="button">Teaching</button>
+          </div>
+        </div>
+        <div className="mt-8 flex flex-wrap">
+          {gigs.map((elt) => <GigCard key={elt.id} />)}
+        </div>
+      </div>
+      <div className={styles.gigsPlatformReviews}>
+        <div>
+          <h1 className="font-bold uppercase text-[20px]">Reviews</h1>
+          <p>What people say about gigs platform</p>
+        </div>
+        <div className={styles.reviewCardsWrapper}>
+          {categories.map((elt) => <ReviewCard key={elt.id} />)}
+        </div>
+      </div>
+      <Footer />
     </>
   );
 }

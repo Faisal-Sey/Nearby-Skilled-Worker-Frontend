@@ -1,0 +1,30 @@
+.categoryCard {
+  border: 1px solid #ccc;
+  padding: 30px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 10px;
+  margin: 10px;
+  cursor: pointer;
+  &:hover {
+    animation: scale-up 1s ease-out;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+  span {
+    margin-top: 10px;
+  }
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.1);
+  }
+}
+

@@ -1,10 +1,14 @@
-import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 import styles from "./style.module.scss";
 import { navTabs } from "../../utils/data";
+import type { RootState } from "@/redux/store";
+import { getInitial } from "../../utils/helpers";
 
 function Navbar() {
   const router = useRouter();
+  // Retrieve user from redux store
+  const user = useSelector((state: RootState) => state.user);
 
   return (
     <div className={`${styles.navbar} navbar-wrapper`}>
@@ -22,9 +26,10 @@ function Navbar() {
           ))}
         </ul>
       </div>
-      <div>
+      <div className={styles.navProfileItem}>
         <button type="button">Apply now</button>
         <button type="button">Sign up</button>
+        <button>{getInitial(user?.name)}</button>
         <span>Three bars</span>
       </div>
     </div>

@@ -3,12 +3,43 @@
   border-radius: 25px;
   padding: 30px;
   margin: 0 30px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .jobSearchInputWrapper {
   display: flex;
+  flex-wrap: wrap;
   padding: 20px;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.topCategories {
+  margin: 30px 30px;
+}
+
+.recentGigs {
+  margin: 50px 30px;
+}
+
+.filterButtons {
+  button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+  }
+}
+
+.gigsPlatformReviews {
+  margin: 50px 30px;
+}
+
+.reviewCardsWrapper {
+  display: -webkit-box;
+  overflow: auto;
 }

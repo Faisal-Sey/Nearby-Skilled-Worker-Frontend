@@ -13,3 +13,15 @@ export function showLocationPopup(handleLocationSuccess: PositionCallback, handl
   }
 }
 
+export const getInitial = (name: string): string => {
+  if (name) {
+    let initials = "";
+    const splittedName = name?.split(" ") || [];
+    splittedName.forEach((elt) => {
+      initials += elt[0]?.toUpperCase() || "";
+    });
+    return initials;
+  }
+
+  return "";
+};
