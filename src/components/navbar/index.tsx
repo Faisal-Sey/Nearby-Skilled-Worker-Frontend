@@ -1,14 +1,15 @@
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import styles from "./style.module.scss";
-import { navTabs } from "../../utils/data";
+import { navTabs } from "@/utils/data";
 import type { RootState } from "@/redux/store";
-import { getInitial } from "../../utils/helpers";
+import { getInitial } from "@/utils/helpers";
 
 function Navbar() {
   const router = useRouter();
   // Retrieve user from redux store
   const user = useSelector((state: RootState) => state.user);
+  console.log(user);
 
   return (
     <div className={`${styles.navbar} navbar-wrapper`}>
