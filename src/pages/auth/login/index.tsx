@@ -4,7 +4,8 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setUserData } from "@/redux/slices/userSlice";
-import { axiosClient } from "../../../libs/axiosClient";
+import { axiosClient } from "@/libs/axiosClient";
+import PasswordInput from "@/components/passwordInput";
 
 /**
  * @method LoginPage
@@ -41,30 +42,21 @@ function LoginPage() {
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
-    // Prevent default button submit action
     e.preventDefault();
-    // Set loading in progress
     setLoading(true);
 
     try {
-      // Make Login request with entered credentials
       const login = await axiosClient.post("/auth/seeker/login", state);
-      // Turn loading to off after login
       setLoading(false);
-      // Set response status message
       const respStatus: number = login.data.status;
 
       if (respStatus) {
-        // Set User data into the redux
         dispatch(setUserData(login.data.data));
-        // Toast success message
         toast.success("Login successful");
-        // Proceed to the home page
-        router.push("/home");
+        await router.push("/home");
       }
     } catch (error: any) {
       setLoading(false);
-      // Toast error message
       toast.error(error.response.data.message);
       console.error(error);
     }
@@ -75,20 +67,20 @@ function LoginPage() {
       <h1 className="mb-3 font-bold text-[22px]">Login Page</h1>
       <form onSubmit={handleSubmit} className="flex flex-col">
         <input
-          type="text"
-          className="border-[1px] mb-3 p-2"
-          title="username"
-          name="username"
-          placeholder="Username"
+          type="email"
+          className="border border-gray-300 rounded-md mb-3 p-2 w-full"
+          title="email"
+          name="email"
+          placeholder="Email"
           onChange={handleChange}
+          required
         />
-        <input
-          type="password"
-          className="border-[1px] mb-3 p-2"
-          title="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
+        <PasswordInput
+            onChange={handleChange}
+            name={"password"}
+            title={"password"}
+            placeholder={"Password"}
+            className=""
         />
         <button type="submit" className="bg-blue-600 py-3 text-[#fff]">
           {loading ? "Loading..." : "Login"}
@@ -99,6 +91,13 @@ function LoginPage() {
           passHref
         >
           Don&apos;t have an account? Register now!
+        </Link>
+        <Link
+            className="mt-3 underline text-blue-600 text-[13px]"
+            href="/auth/reset-password"
+            passHref
+        >
+          Forgotten your password? Reset Password
         </Link>
       </form>
     </div>

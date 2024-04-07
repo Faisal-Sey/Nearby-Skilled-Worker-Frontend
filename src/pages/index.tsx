@@ -1,9 +1,8 @@
-import { useRouter } from "next/router";
+import {NextRouter, useRouter} from "next/router";
 
 
-export default function LandingPage() {
-  // Initialize the router hook
-  const router = useRouter();
+export default function LandingPage(): JSX.Element {
+  const router: NextRouter = useRouter();
 
   return (
     <div className="bg-white m-0 p-0 flex flex-col items-center justify-center h-[100vh]">

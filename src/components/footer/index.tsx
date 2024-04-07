@@ -1,6 +1,13 @@
 import styles from "./style.module.scss";
 
-function Footer() {
+function Footer(): JSX.Element {
+  /**
+   * @description - Gets current year
+   * @returns number - Returns number
+   */
+  const getDate: Function = (): number => {
+    return new Date().getFullYear();
+  }
   return ( 
     <div className="bg-[#FEF8F3]">
       <div className={styles.footer}>
@@ -35,7 +42,7 @@ function Footer() {
         </div>
       </div>
       <div className="flex justify-center">
-        <span className="pb-3">Copyright 2023</span>
+        <span className="pb-3">Copyright {getDate()}</span>
       </div>
     </div>
   );

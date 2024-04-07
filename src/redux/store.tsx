@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from 'redux';
 import userReducer from "../redux/slices/userSlice";
+import resetPasswordReducer from "../redux/slices/resetPasswordSlice";
 import storage from 'redux-persist/lib/storage';
 import {
   FLUSH,
@@ -15,6 +16,7 @@ import {
 
 const reducers = combineReducers({
   user: userReducer,
+  resetPasswordData: resetPasswordReducer
 });
 
 const persistConfig = {
@@ -34,7 +36,5 @@ export const store = configureStore({
     }),
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
 export const persistor = persistStore(store);

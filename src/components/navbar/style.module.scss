@@ -3,14 +3,25 @@
   display: flex;
   justify-content: space-between;
   padding: 20px;
+  z-index: 100;
 }
 
 .navLink {
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .navProfileItem {
+  display: flex;
+  align-items: center;
   button {
     margin-right: 10px;
   }
+}
+
+.nameProfile {
+  background-color: #0000ff;
+  padding: 6px 12px;
+  border-radius: 50%;
+  color: #fff;
 }

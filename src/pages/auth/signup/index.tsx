@@ -1,25 +1,24 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import React, {Dispatch, useState} from "react";
+import {NextRouter, useRouter} from "next/router";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setUserData } from "@/redux/slices/userSlice";
-import { axiosClient } from "../../../libs/axiosClient";
+import { axiosClient } from "@/libs/axiosClient";
+import PasswordInput from "@/components/passwordInput";
+import CustomLink from "@/components/links";
+import SubmitButton from "@/components/button";
+import {AnyAction} from "redux";
 
 /**
  * @method SignupPage
  * @returns Jsx - Signup page jsx
  */
 function SignupPage() {
-  // State to handle onchange events of input fields
   const [state, setState] = useState<SignupData>({});
-  // Request loading state
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  // Initialize dispatch hook
-  const dispatch = useDispatch();
-  // Initialize navigate hook
-  const router = useRouter();
+  const dispatch: Dispatch<AnyAction> = useDispatch();
+  const router: NextRouter = useRouter();
 
   /**
    * @description - Handle participants clicks
@@ -41,37 +40,27 @@ function SignupPage() {
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
-    // Prevent default button submit action
     e.preventDefault();
-    // Set loading in progress
     setLoading(true);
 
     try {
-      // Check if passwords match
       if (state.password === state.c_password) {
         const modState = { ...state };
         delete modState?.c_password
-        // Make signup request with entered credentials
         const signup = await axiosClient.post("/auth/seeker/signup", modState);
-        // Turn loading to off after signup
         setLoading(false);
-        // Set response status message
         const respStatus: number = signup.data.status;
 
         if (respStatus) {
-          // Set User data into the redux
           dispatch(setUserData(signup.data.data));
-          // Toast success message
           toast.success("Signup successful");
-          // Proceed to the verification page
-          router.push("/verify-identity");
+          await router.push("/verify-identity");
         }
       } else {
         toast.error("Passwords do not match");
       }
     } catch (error: any) {
       setLoading(false);
-      // Toast error message
       toast.error(error.response.data.message);
       console.error(error);
     }
@@ -82,47 +71,39 @@ function SignupPage() {
       <h1 className="mb-3 font-bold text-[22px]">Register Page</h1>
       <form onSubmit={handleSubmit} className="flex flex-col">
         <input
-          type="text"
-          className="border-[1px] mb-3 p-2"
-          title="username"
-          name="username"
-          placeholder="Username"
+          type="email"
+          className={"border border-gray-300 rounded-md mb-3 p-2 w-full"}
+          title="email"
+          name="email"
+          placeholder="Email Address"
           onChange={handleChange}
+          required
         />
         <input
           type="text"
-          className="border-[1px] mb-3 p-2"
+          className={"border border-gray-300 rounded-md mb-3 p-2 w-full"}
           title="name"
           name="name"
           placeholder="Name"
           onChange={handleChange}
+          required
         />
-        <input
-          type="password"
-          className="border-[1px] mb-3 p-2"
-          title="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
+        <PasswordInput
+            className={""}
+            onChange={handleChange}
+            name={"password"}
+            title={"password"}
+            placeholder={"Password"}
         />
-        <input
-          type="password"
-          className="border-[1px] mb-3 p-2"
-          title="confirm password"
-          name="c_password"
-          placeholder="Confirm Password"
-          onChange={handleChange}
+        <PasswordInput
+            onChange={handleChange}
+            name={"c_password"}
+            title={"Confirm Password"}
+            placeholder={"Confirm Password"}
+            className=""
         />
-        <button type="submit" className="bg-blue-600 py-3 text-[#fff]">
-          {loading ? "Loading..." : "Register"}
-        </button>
-        <Link
-          className="mt-3 underline text-blue-600 text-[13px]"
-          href="/auth/login"
-          passHref
-        >
-          Already have an account? Login here
-        </Link>
+        <SubmitButton loading={loading} text={"Register"} />
+        <CustomLink route={'/auth/login'} text={'Already have an account? Login here'} />
       </form>
     </div>
   );
