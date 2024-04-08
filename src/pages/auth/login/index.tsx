@@ -1,38 +1,26 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
+import React, {Dispatch, useState} from "react";
+import {NextRouter, useRouter} from "next/router";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setUserData } from "@/redux/slices/userSlice";
 import { axiosClient } from "@/libs/axiosClient";
 import PasswordInput from "@/components/passwordInput";
+import useForm from "@/hooks";
+import {AnyAction} from "redux";
+import CustomLink from "@/components/links";
+import SubmitButton from "@/components/button";
 
 /**
  * @method LoginPage
  * @returns Jsx - Login page jsx
  */
 function LoginPage() {
-  // State to handle onchange events of input fields
-  const [state, setState] = useState({});
-  // Request loading state
+  const {state, handleChange} = useForm({});
   const [loading, setLoading] = useState(false);
 
-  // Initialize dispatch hook
-  const dispatch = useDispatch();
-  // Initialize navigate hook
-  const router = useRouter();
-
-  /**
-   * @description - Handle participants clicks
-   * @param {e} React.ChangeEvent<HTMLInputElement> - Onchange event
-   * @returns void - Returns nothing
-   */
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const dispatch: Dispatch<AnyAction> = useDispatch();
+  const router: NextRouter = useRouter();
 
   /**
    * @description - Handle form submits
@@ -82,23 +70,9 @@ function LoginPage() {
             placeholder={"Password"}
             className=""
         />
-        <button type="submit" className="bg-blue-600 py-3 text-[#fff]">
-          {loading ? "Loading..." : "Login"}
-        </button>
-        <Link
-          className="mt-3 underline text-blue-600 text-[13px]"
-          href="/auth/signup"
-          passHref
-        >
-          Don&apos;t have an account? Register now!
-        </Link>
-        <Link
-            className="mt-3 underline text-blue-600 text-[13px]"
-            href="/auth/reset-password"
-            passHref
-        >
-          Forgotten your password? Reset Password
-        </Link>
+        <SubmitButton loading={loading} text={"Login"} />
+        <CustomLink route={"/auth/signup"} text={"Don't have an account? Register now!"} />
+        <CustomLink route={"/auth/reset-password"} text={"Forgotten your password? Reset Password"} />
       </form>
     </div>
   );
