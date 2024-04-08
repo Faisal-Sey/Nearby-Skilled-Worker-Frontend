@@ -1,6 +1,5 @@
 import React, {Dispatch, useState} from "react";
 import {NextRouter, useRouter} from "next/router";
-import Link from "next/link";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setUserData } from "@/redux/slices/userSlice";
